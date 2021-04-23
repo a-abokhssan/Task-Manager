@@ -5,17 +5,17 @@ FactoryBot.define do
     password
     email
     avatar
-    traits_for_enum(:type, ['Developer', 'Manager', 'Admin'])
+    type {''}
 
-    factory :developer do
+    factory :developer, parent: :user do
       type { 'Developer' }
     end
 
-    factory :manager do
+    factory :manager, parent: :user do
       type { 'Manager' }
     end
 
-    factory :admin do
+    factory :admin, parent: :user do
       type { 'Admin' }
     end
   end
