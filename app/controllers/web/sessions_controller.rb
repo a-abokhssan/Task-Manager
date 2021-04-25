@@ -1,10 +1,10 @@
 class Web::SessionsController < Web::ApplicationController
   def new
-    @session = SessionForm.new
+    @session = SessionForms.new
   end
 
   def create
-    @session = SessionForm.new(session_params)
+    @session = SessionForms.new(session_params)
 
     if @session.valid?
       sign_in @session.user
