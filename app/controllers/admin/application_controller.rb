@@ -4,7 +4,7 @@ class Admin::ApplicationController < ApplicationController
   helper_method :current_user
 
   def authorize
-    render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false) if (forbidden?)
+    render(file: File.join(Rails.root, 'public/403.html'), status: 403, layout: false) if forbidden?
   end
 
   def forbidden?
