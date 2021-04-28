@@ -22,6 +22,13 @@ class Api::V1::TasksController < Api::ApplicationController
     respond_with(task, serializer: TaskSerializer, location: nil)
   end
 
+  def update
+    task = Task.find(params[:id])
+    task.update(task_params)
+
+    respond_with(task, serializer: TaskSerializer)
+  end
+
   private
 
   def task_params
