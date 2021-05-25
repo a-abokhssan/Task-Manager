@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { has } from 'ramda';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -10,14 +9,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
 
 import TaskForm from 'forms/TaskForm';
+import Form from 'components/Form';
 
 import useStyles from './useStyles';
 
-const AddPopup = ({ onClose, onCreateCard }) => {
-  const [task, changeTask] = useState(TaskForm.defaultAttributes());
+const AddPopup = ({ onClose, onCreateCard, mode }) => {
+  const [task, setTask] = useState(TaskForm.defaultAttributes());
   const [isSaving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
   const handleCreate = () => {
@@ -32,8 +31,7 @@ const AddPopup = ({ onClose, onCreateCard }) => {
       }
     });
   };
-  const handleChangeTextField = (fieldName) => (event) =>
-    changeTask({ ...task, [fieldName]: event.target.value });
+
   const styles = useStyles();
 
   return (
@@ -49,24 +47,7 @@ const AddPopup = ({ onClose, onCreateCard }) => {
         />
         <CardContent>
           <div className={styles.form}>
-            <TextField
-              error={has('name', errors)}
-              helperText={errors.name}
-              onChange={handleChangeTextField('name')}
-              value={task.name}
-              label='Name'
-              required
-              margin='dense'
-            />
-            <TextField
-              error={has('description', errors)}
-              helperText={errors.description}
-              onChange={handleChangeTextField('description')}
-              value={task.description}
-              label='Description'
-              required
-              margin='dense'
-            />
+            <Form errors={errors} onChange={setTask} task={task} mode={mode} />
           </div>
         </CardContent>
         <CardActions className={styles.actions}>
@@ -88,6 +69,7 @@ const AddPopup = ({ onClose, onCreateCard }) => {
 AddPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCreateCard: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default AddPopup;

@@ -22,6 +22,7 @@ const EditPopup = ({
   onCardDestroy,
   onLoadCard,
   onCardUpdate,
+  mode,
 }) => {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
@@ -77,7 +78,7 @@ const EditPopup = ({
               <CircularProgress />
             </div>
           ) : (
-            <Form errors={errors} onChange={setTask} task={task} />
+            <Form errors={errors} onChange={setTask} task={task} mode={mode} />
           )}
         </CardContent>
         <CardActions className={styles.actions}>
@@ -111,6 +112,7 @@ EditPopup.propTypes = {
   onCardDestroy: PropTypes.func.isRequired,
   onLoadCard: PropTypes.func.isRequired,
   onCardUpdate: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default EditPopup;
