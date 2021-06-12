@@ -30,10 +30,7 @@
       }
     ],
     "max-len": ["error", { "code": 120, "ignoreUrls": true }],
-    "no-param-reassign": [
-      "error",
-      { "props": true, "ignorePropertyModificationsFor": ["state"] }
-    ],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-unresolved": ["off"],
     "import/no-absolute-path": ["off"],
@@ -50,15 +47,7 @@
     "react/prop-types": [
       2,
       {
-        "ignore": [
-          "classes",
-          "match",
-          "dictionaries",
-          "errors",
-          "history",
-          "children",
-          "location"
-        ]
+        "ignore": ["classes", "match", "dictionaries", "errors", "history", "children", "location"]
       }
     ],
     "no-debugger": ["warn"],
