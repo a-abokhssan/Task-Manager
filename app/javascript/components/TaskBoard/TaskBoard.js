@@ -11,7 +11,7 @@ import TasksRepository from 'repositories/TasksRepository';
 import ColumnHeader from 'components/ColumnHeader';
 import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
-import TaskForm from '../../forms/TaskForm';
+import TaskForm from 'forms/TaskForm';
 
 import TaskPresenter from 'presenters/TaskPresenter';
 
@@ -177,8 +177,8 @@ const TaskBoard = () => {
       <Fab
         onClick={handleOpenAddPopup}
         className={styles.addButton}
-        color='primary'
-        aria-label='add'
+        color="primary"
+        aria-label="add"
       >
         <AddIcon />
       </Fab>
