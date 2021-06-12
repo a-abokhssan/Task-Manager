@@ -24,5 +24,5 @@ export default new PropTypesPresenter(
     title(task) {
       return `Task # ${this.id(task)} [${this.name(task)}]`;
     },
-  }
+  },
 );

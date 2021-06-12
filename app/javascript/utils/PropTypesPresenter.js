@@ -9,7 +9,7 @@ export default class PropTypesPresenter {
       keys,
       forEach((name) => {
         this[name] = prop(name);
-      })
+      }),
     )(propTypes);
 
     forEachObjIndexed((method, name) => {

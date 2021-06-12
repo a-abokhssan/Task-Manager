@@ -37,9 +37,7 @@ const TaskBoard = () => {
     perPage,
   });
 
-  const boardLoadParams = STATES.map(({ taskState }) =>
-    taskLoadParams(taskState)
-  );
+  const boardLoadParams = STATES.map(({ taskState }) => taskLoadParams(taskState));
 
   useEffect(() => {
     loadBoard(boardLoadParams);
@@ -60,9 +58,7 @@ const TaskBoard = () => {
   };
 
   const handleCardDragEnd = (task, source, destination) => {
-    const transition = task.transitions.find(
-      ({ to }) => destination.toColumnId === to
-    );
+    const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
     if (!transition) {
       return undefined;
     }
@@ -86,18 +82,15 @@ const TaskBoard = () => {
     });
   };
 
-  const handleTaskLoad = (id) =>
-    TasksRepository.show(id).then(({ data: { task } }) => task);
+  const handleTaskLoad = (id) => TasksRepository.show(id).then(({ data: { task } }) => task);
 
   const handleTaskUpdate = (task) => {
     const attributes = TaskForm.serialize(task);
 
-    return TasksRepository.update(TaskPresenter.id(task), attributes).then(
-      () => {
-        loadColumn(taskLoadParams(TaskPresenter.state(task)));
-        handleClosePopup();
-      }
-    );
+    return TasksRepository.update(TaskPresenter.id(task), attributes).then(() => {
+      loadColumn(taskLoadParams(TaskPresenter.state(task)));
+      handleClosePopup();
+    });
   };
 
   const handleTaskDestroy = (task) => {
@@ -109,35 +102,20 @@ const TaskBoard = () => {
 
   return (
     <>
-      <Fab
-        onClick={handleAddPopupOpen}
-        className={styles.addButton}
-        color="primary"
-        aria-label="add"
-      >
+      <Fab onClick={handleAddPopupOpen} className={styles.addButton} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
 
       <KanbanBoard
         disableColumnDrag
         onCardDragEnd={handleCardDragEnd}
-        renderCard={(card) => (
-          <Task onClick={handleEditPopupOpen} task={card} />
-        )}
-        renderColumnHeader={(column) => (
-          <ColumnHeader column={column} onLoadMore={loadColumnMore} />
-        )}
+        renderCard={(card) => <Task onClick={handleEditPopupOpen} task={card} />}
+        renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
       >
         {board}
       </KanbanBoard>
 
-      {mode === MODES.ADD && (
-        <AddPopup
-          onCreateCard={handleTaskCreate}
-          onClose={handleClosePopup}
-          mode={mode}
-        />
-      )}
+      {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClosePopup} mode={mode} />}
       {mode === MODES.EDIT && (
         <EditPopup
           onLoadCard={handleTaskLoad}

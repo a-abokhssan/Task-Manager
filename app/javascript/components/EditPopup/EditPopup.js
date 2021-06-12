@@ -17,14 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import useStyles from './useStyles';
 
-const EditPopup = ({
-  cardId,
-  onClose,
-  onCardDestroy,
-  onLoadCard,
-  onCardUpdate,
-  mode,
-}) => {
+const EditPopup = ({ cardId, onClose, onCardDestroy, onLoadCard, onCardUpdate, mode }) => {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
@@ -67,11 +60,7 @@ const EditPopup = ({
               <CloseIcon />
             </IconButton>
           }
-          title={
-            isLoading
-              ? 'Your task is loading. Please be patient.'
-              : TaskPresenter.title(task)
-          }
+          title={isLoading ? 'Your task is loading. Please be patient.' : TaskPresenter.title(task)}
         />
         <CardContent>
           {isLoading ? (
@@ -86,18 +75,18 @@ const EditPopup = ({
           <Button
             disabled={isLoading || isSaving}
             onClick={handleCardUpdate}
-            size='small'
-            variant='contained'
-            color='primary'
+            size="small"
+            variant="contained"
+            color="primary"
           >
             Update
           </Button>
           <Button
             disabled={isLoading || isSaving}
             onClick={handleCardDestroy}
-            size='small'
-            variant='contained'
-            color='secondary'
+            size="small"
+            variant="contained"
+            color="secondary"
           >
             Destroy
           </Button>

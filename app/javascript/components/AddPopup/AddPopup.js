@@ -43,7 +43,7 @@ const AddPopup = ({ onClose, onCreateCard, mode }) => {
               <CloseIcon />
             </IconButton>
           }
-          title='Add New Task'
+          title="Add New Task"
         />
         <CardContent>
           <div className={styles.form}>
@@ -51,13 +51,7 @@ const AddPopup = ({ onClose, onCreateCard, mode }) => {
           </div>
         </CardContent>
         <CardActions className={styles.actions}>
-          <Button
-            disabled={isSaving}
-            onClick={handleCreate}
-            variant='contained'
-            size='small'
-            color='primary'
-          >
+          <Button disabled={isSaving} onClick={handleCreate} variant="contained" size="small" color="primary">
             Add
           </Button>
         </CardActions>

@@ -8,8 +8,6 @@ const theme = createMuiTheme({
   },
 });
 
-const MUITheme = (props) => (
-  <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
-);
+const MUITheme = (props) => <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
 
 export default MUITheme;
