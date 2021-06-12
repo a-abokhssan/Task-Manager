@@ -13,6 +13,8 @@ import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
 import TaskForm from 'forms/TaskForm';
 
+import TaskPresenter from 'presenters/TaskPresenter';
+
 const STATES = [
   { key: 'new_task', value: 'New' },
   { key: 'in_development', value: 'In Dev' },
@@ -52,7 +54,7 @@ const TaskBoard = () => {
   };
 
   const handleOpenEditPopup = (task) => {
-    setOpenedTaskId(task.id);
+    setOpenedTaskId(TaskPresenter.id(task));
     setMode(MODES.EDIT);
   };
 
@@ -112,36 +114,43 @@ const TaskBoard = () => {
   const handleTaskCreate = (params) => {
     const attributes = TaskForm.attributesToSubmit(params);
     return TasksRepository.create(attributes).then(({ data: { task } }) => {
-      loadColumnInitial(task.state);
+      loadColumnInitial(TaskPresenter.state(task));
       setMode(MODES.NONE);
     });
   };
 
-  const loadTask = (id) => TasksRepository.show(id).then(({ data: { task } }) => task);
+  const loadTask = (id) =>
+    TasksRepository.show(id).then(({ data: { task } }) => task);
 
   const handleTaskUpdate = (task) => {
     const attributes = TaskForm.attributesToSubmit(task);
 
-    return TasksRepository.update(task.id, attributes).then(() => {
-      loadColumnInitial(task.state);
-      handleClose();
-    });
+    return TasksRepository.update(TaskPresenter.id(task), attributes).then(
+      () => {
+        loadColumnInitial(TaskPresenter.state(task));
+        handleClose();
+      }
+    );
   };
 
   const handleTaskDestroy = (task) => {
-    TasksRepository.destroy(task.id).then(() => {
-      loadColumnInitial(task.state);
+    TasksRepository.destroy(TaskPresenter.id(task)).then(() => {
+      loadColumnInitial(TaskPresenter.state(task));
       handleClose();
     });
   };
 
   const handleCardDragEnd = (task, source, destination) => {
-    const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
+    const transition = task.transitions.find(
+      ({ to }) => destination.toColumnId === to
+    );
     if (!transition) {
       return null;
     }
 
-    return TasksRepository.update(task.id, { stateEvent: transition.event })
+    return TasksRepository.update(TaskPresenter.id(task), {
+      stateEvent: transition.event,
+    })
       .then(() => {
         loadColumnInitial(destination.toColumnId);
         loadColumnInitial(source.fromColumnId);
@@ -156,15 +165,30 @@ const TaskBoard = () => {
       <KanbanBoard
         disableColumnDrag
         onCardDragEnd={handleCardDragEnd}
-        renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
-        renderCard={(card) => <Task onClick={handleOpenEditPopup} task={card} />}
+        renderColumnHeader={(column) => (
+          <ColumnHeader column={column} onLoadMore={loadColumnMore} />
+        )}
+        renderCard={(card) => (
+          <Task onClick={handleOpenEditPopup} task={card} />
+        )}
       >
         {board}
       </KanbanBoard>
-      <Fab onClick={handleOpenAddPopup} className={styles.addButton} color="primary" aria-label="add">
+      <Fab
+        onClick={handleOpenAddPopup}
+        className={styles.addButton}
+        color="primary"
+        aria-label="add"
+      >
         <AddIcon />
       </Fab>
-      {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />}
+      {mode === MODES.ADD && (
+        <AddPopup
+          onCreateCard={handleTaskCreate}
+          onClose={handleClose}
+          mode={mode}
+        />
+      )}
       {mode === MODES.EDIT && (
         <EditPopup
           onLoadCard={loadTask}
@@ -172,6 +196,7 @@ const TaskBoard = () => {
           onCardUpdate={handleTaskUpdate}
           onClose={handleClose}
           cardId={openedTaskId}
+          mode={mode}
         />
       )}
     </>

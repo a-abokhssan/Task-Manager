@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { isNil } from 'ramda';
 
 import Form from 'components/Form';
+import TaskPresenter from 'presenters/TaskPresenter';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -22,6 +23,7 @@ const EditPopup = ({
   onCardDestroy,
   onLoadCard,
   onCardUpdate,
+  mode,
 }) => {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
@@ -68,7 +70,7 @@ const EditPopup = ({
           title={
             isLoading
               ? 'Your task is loading. Please be patient.'
-              : `Task # ${task.id} [${task.name}]`
+              : TaskPresenter.title(task)
           }
         />
         <CardContent>
@@ -77,7 +79,7 @@ const EditPopup = ({
               <CircularProgress />
             </div>
           ) : (
-            <Form errors={errors} onChange={setTask} task={task} />
+            <Form errors={errors} onChange={setTask} task={task} mode={mode} />
           )}
         </CardContent>
         <CardActions className={styles.actions}>
@@ -111,6 +113,7 @@ EditPopup.propTypes = {
   onCardDestroy: PropTypes.func.isRequired,
   onLoadCard: PropTypes.func.isRequired,
   onCardUpdate: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
 };
 
 export default EditPopup;
