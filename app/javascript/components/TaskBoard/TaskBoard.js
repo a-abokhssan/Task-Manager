@@ -11,7 +11,7 @@ import TasksRepository from 'repositories/TasksRepository';
 import ColumnHeader from 'components/ColumnHeader';
 import AddPopup from 'components/AddPopup';
 import EditPopup from 'components/EditPopup';
-import TaskForm from '../../forms/TaskForm';
+import TaskForm from 'forms/TaskForm';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -117,8 +117,7 @@ const TaskBoard = () => {
     });
   };
 
-  const loadTask = (id) =>
-    TasksRepository.show(id).then(({ data: { task } }) => task);
+  const loadTask = (id) => TasksRepository.show(id).then(({ data: { task } }) => task);
 
   const handleTaskUpdate = (task) => {
     const attributes = TaskForm.attributesToSubmit(task);
@@ -137,9 +136,7 @@ const TaskBoard = () => {
   };
 
   const handleCardDragEnd = (task, source, destination) => {
-    const transition = task.transitions.find(
-      ({ to }) => destination.toColumnId === to
-    );
+    const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
     if (!transition) {
       return null;
     }
@@ -159,26 +156,15 @@ const TaskBoard = () => {
       <KanbanBoard
         disableColumnDrag
         onCardDragEnd={handleCardDragEnd}
-        renderColumnHeader={(column) => (
-          <ColumnHeader column={column} onLoadMore={loadColumnMore} />
-        )}
-        renderCard={(card) => (
-          <Task onClick={handleOpenEditPopup} task={card} />
-        )}
+        renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={loadColumnMore} />}
+        renderCard={(card) => <Task onClick={handleOpenEditPopup} task={card} />}
       >
         {board}
       </KanbanBoard>
-      <Fab
-        onClick={handleOpenAddPopup}
-        className={styles.addButton}
-        color='primary'
-        aria-label='add'
-      >
+      <Fab onClick={handleOpenAddPopup} className={styles.addButton} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
-      {mode === MODES.ADD && (
-        <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />
-      )}
+      {mode === MODES.ADD && <AddPopup onCreateCard={handleTaskCreate} onClose={handleClose} />}
       {mode === MODES.EDIT && (
         <EditPopup
           onLoadCard={loadTask}
