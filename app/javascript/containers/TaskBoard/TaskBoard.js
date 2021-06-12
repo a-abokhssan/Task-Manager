@@ -54,7 +54,7 @@ const TaskBoard = () => {
     setMode(MODES.EDIT);
   };
 
-  const handleClose = () => {
+  const handleClosePopup = () => {
     setMode(MODES.NONE);
     setOpenedTaskId(null);
   };
@@ -64,9 +64,8 @@ const TaskBoard = () => {
       ({ to }) => destination.toColumnId === to
     );
     if (!transition) {
-      return;
+      return undefined;
     }
-    // eslint-disable-next-line consistent-return
     return TasksRepository.update(TaskPresenter.id(task), {
       stateEvent: transition.event,
     })
@@ -96,7 +95,7 @@ const TaskBoard = () => {
     return TasksRepository.update(TaskPresenter.id(task), attributes).then(
       () => {
         loadColumn(taskLoadParams(TaskPresenter.state(task)));
-        handleClose();
+        handleClosePopup();
       }
     );
   };
@@ -104,7 +103,7 @@ const TaskBoard = () => {
   const handleTaskDestroy = (task) => {
     TasksRepository.destroy(TaskPresenter.id(task)).then(() => {
       loadColumn(taskLoadParams(TaskPresenter.state(task)));
-      handleClose();
+      handleClosePopup();
     });
   };
 
@@ -113,8 +112,8 @@ const TaskBoard = () => {
       <Fab
         onClick={handleAddPopupOpen}
         className={styles.addButton}
-        color='primary'
-        aria-label='add'
+        color="primary"
+        aria-label="add"
       >
         <AddIcon />
       </Fab>
@@ -135,7 +134,7 @@ const TaskBoard = () => {
       {mode === MODES.ADD && (
         <AddPopup
           onCreateCard={handleTaskCreate}
-          onClose={handleClose}
+          onClose={handleClosePopup}
           mode={mode}
         />
       )}
@@ -144,7 +143,7 @@ const TaskBoard = () => {
           onLoadCard={handleTaskLoad}
           onCardDestroy={handleTaskDestroy}
           onCardUpdate={handleTaskUpdate}
-          onClose={handleClose}
+          onClose={handleClosePopup}
           cardId={openedTaskId}
           mode={mode}
         />
