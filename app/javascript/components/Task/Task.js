@@ -24,7 +24,7 @@ const Task = ({ task, onClick }) => {
     <Card className={styles.root}>
       <CardHeader title={TaskPresenter.name(task)} action={action} />
       <CardContent>
-        <Typography variant='body2' color='textSecondary' component='p'>
+        <Typography variant="body2" color="textSecondary" component="p">
           {TaskPresenter.description(task)}
         </Typography>
       </CardContent>

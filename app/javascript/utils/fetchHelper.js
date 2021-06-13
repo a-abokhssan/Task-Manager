@@ -30,9 +30,7 @@ axios.interceptors.response.use(null, (error) => {
   }
 
   if (error.response.status === 500) {
-    return Promise.reject(
-      new Error('Something went wrong, please retry again')
-    );
+    return Promise.reject(new Error('Something went wrong, please retry again'));
   }
 
   return Promise.reject(error);
@@ -43,8 +41,7 @@ export default {
     return axios
       .get(url, {
         params: decamelize(params),
-        paramsSerializer: (parameters) =>
-          qs.stringify(parameters, { encode: false }),
+        paramsSerializer: (parameters) => qs.stringify(parameters, { encode: false }),
       })
       .then(camelize);
   },
